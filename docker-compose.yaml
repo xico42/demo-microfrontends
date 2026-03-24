@@ -1,0 +1,18 @@
+services:
+  proxy:
+    build:
+      context: .
+      dockerfile: proxy/Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      app1:
+        condition: service_started
+      app2:
+        condition: service_started
+
+  app1:
+    build: ./app1
+
+  app2:
+    build: ./app2
