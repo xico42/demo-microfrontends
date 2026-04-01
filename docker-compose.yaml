@@ -10,9 +10,14 @@ services:
         condition: service_started
       app2:
         condition: service_started
+      legacy:
+        condition: service_started
 
   app1:
     build: ./app1
 
   app2:
     build: ./app2
+
+  legacy:
+    build: ./legacy

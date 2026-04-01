@@ -11,7 +11,17 @@
 
 	@app2 path /app2 /app2/*
 	handle @app2 {
-		reverse_proxy app2:3000
+		route {
+			canary {
+				weight 0.5
+			}
+
+			@primary expression {canary.upstream} == "primary"
+			@canary expression {canary.upstream} == "canary"
+
+			reverse_proxy @primary app2:3000
+			reverse_proxy @canary legacy:80
+		}
 	}
 
 	redir / /app1 permanent
